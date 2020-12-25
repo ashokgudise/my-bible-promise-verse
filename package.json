@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server": "json-server --watch ./server/database.json"
+    "server": "json-server --watch ./server/database.json",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
