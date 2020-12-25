@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+// src\styles.scss
+
+@import "~@angular/material/theming";
+
+@include mat-core();
+
+@import "./theme.scss";
+
+@import "./custom-component-themes.scss";
+
+@include angular-material-theme($promise-verse-components-theme);
+@include custom-components-theme($promise-verse-components-theme, $notifications-theme);
+
+.dark-theme {
+  @include angular-material-color($dark-theme);
+  @include custom-components-theme($dark-theme, $notifications-theme);
+}
+
+@include angular-material-typography($typography);
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

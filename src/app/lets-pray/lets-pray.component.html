@@ -1,0 +1,187 @@
+<!--<h1>Hello There</h1> -->
+
+<h3>Welcome </h3>
+
+<mat-vertical-stepper [linear]="isLinear" #stepper>
+
+   <mat-step>
+    <ng-template matStepLabel>Pray</ng-template>
+
+    <h3>Greetings in the Name of our Precious Lord, Jesus Christ!.</h3>
+    <br/>
+    <br/>
+    <h3>Please take a moment and pray to continue,</h3>
+
+    <br/>
+    <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" matStepperNext>Next</button>
+  </mat-step>
+
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Pray</ng-template>
+      <li class="mat-form-field--inline">
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="First Name" formControlName="firstName" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Last Name" formControlName="lastName" required>
+        </mat-form-field>
+      </li>
+      <br/>
+
+       <li class="mat-form-field--inline">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input type="email" matInput formControlName="email"
+          placeholder="Ex. mail@gmail.com" required/>
+          <mat-error *ngIf="
+          firstFormGroup.get('email').hasError('email')
+          &&!firstFormGroup.get('email').hasError('required')">
+          Please enter a valid email address
+          </mat-error>
+          <mat-error
+          *ngIf="firstFormGroup.get('email').hasError('required')">
+          Email is <strong>required</strong>
+          </mat-error>
+          <br/>
+        </mat-form-field>
+        <mat-checkbox matInput  formControlName="includeFamily">Include Family / Friends</mat-checkbox>
+      </li>
+
+      <div *ngIf="firstFormGroup.get('includeFamily').value == true">
+        <button mat-raised-button (click)="show()"> <mat-icon color="accent">add</mat-icon> Add User </button>
+        <div >
+            <table mat-table [dataSource]="dataSourceAddUser" >
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="FirstName">
+                      <th mat-header-cell *matHeaderCellDef> </th>
+                      <td mat-cell *matCellDef="let element">
+                          <mat-form-field floatLabel="never">
+                              <input [value]="element.firstName" [(ngModel)]="element.firstName" matInput placeholder="Enter your name" [formControl]="firstNameFormControl" required>
+                              <mat-error *ngIf="firstNameFormControl.invalid">{{getFirstNameErrorMessage()}}</mat-error>
+                          </mat-form-field>
+                      </td>
+                  </ng-container>
+                  <!-- Surname Column -->
+                  <ng-container matColumnDef="LastName" fxFlex="40px">
+                      <th mat-header-cell *matHeaderCellDef> </th>
+                      <td mat-cell *matCellDef="let element">
+                          <mat-form-field floatLabel="never">
+                              <input matInput placeholder="LastName" [value]="element.lastName" [(ngModel)]="element.lastName" required [formControl]="lastNameFormControl">
+                              <mat-error *ngIf="lastNameFormControl.invalid">{{getLastNameErrorMessage()}}</mat-error>
+                          </mat-form-field>
+                      </td>
+                  </ng-container>
+                  <!-- Save Column -->
+                  <ng-container matColumnDef="Save">
+                      <th mat-header-cell *matHeaderCellDef> </th>
+                      <td mat-cell *matCellDef="let element">
+                          <button mat-raised-button (click)="saveUser(element)"  [disabled]="firstNameFormControl.invalid  || lastNameFormControl.invalid"> <mat-icon color="accent">save</mat-icon>
+                              Save </button>
+                      </td>
+                  </ng-container>
+                  <!-- Cancel Column -->
+                  <ng-container matColumnDef="Cancel">
+                      <th mat-header-cell *matHeaderCellDef> </th>
+                      <td mat-cell *matCellDef="let element">
+                          <button mat-raised-button (click)="cancel()"> <mat-icon color="accent">cancel</mat-icon> Cancel </button>
+                      </td>
+                  </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsAddUser"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsAddUser;"></tr>
+            </table>
+        </div>
+        <!--  [formGroup]="firstFormGroup.friendsAndFamily" formControlName="" -->
+        <div>
+         <mat-label>Friends and Family</mat-label>
+          <table mat-table [dataSource]="dataSourceUsers" matSort >
+              <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+              </ng-container>
+              <ng-container matColumnDef="FirstName" fxFlex="40px">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+                  <td mat-cell *matCellDef="let element">
+                      <mat-form-field floatLabel="never">
+                          <input matInput
+                              placeholder="First Name"
+                                [value]="element.firstName">
+                                  <!--  [(ngModel)]="element.firstName"> -->
+                      </mat-form-field>
+                  </td>
+              </ng-container>
+              <ng-container matColumnDef="LastName" fxFlex="40px">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+                  <td mat-cell *matCellDef="let element">
+                      <mat-form-field floatLabel="never">
+                          <input matInput placeholder="Last Name"
+                            [value]="element.lastName">
+                              <!--[(ngModel)]="element.lastName"> -->
+                      </mat-form-field>
+                  </td>
+              </ng-container>
+
+              <!-- Email Column -->
+              <!--
+              <ng-container matColumnDef="email" fxFlex="40px">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                  <td mat-cell *matCellDef="let element">
+                      <mat-form-field floatLabel="never">
+                          <input matInput placeholder="Email" [value]="element.email" [(ngModel)]="element.email">
+                      </mat-form-field>
+                  </td>
+              </ng-container>
+              -->
+              <ng-container matColumnDef="Change">
+                  <th mat-header-cell *matHeaderCellDef> </th>
+                  <td mat-cell *matCellDef="let element">
+                      <button mat-raised-button (click)="editUser(element)"  > <mat-icon color="accent">edit</mat-icon> Update </button>
+                  </td>
+              </ng-container>
+              <ng-container matColumnDef="Delete">
+                  <th mat-header-cell *matHeaderCellDef> </th>
+                  <td mat-cell *matCellDef="let element">
+                      <button mat-raised-button (click)="openDialog(element)"> <mat-icon color="accent">delete</mat-icon> Delete</button>
+                  </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+      </div>
+        <div>
+         <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="revealPromiseVerse()">Next</button>
+       </div>
+    </form>
+  </mat-step>
+<br>
+
+  <mat-step>
+    <ng-template matStepLabel>Promise Verse</ng-template>
+    <p>You are now done.</p>
+      <mat-list>
+        <mat-list-item> <strong>Name:</strong> {{ this.firstFormGroup.value.firstName }} , {{ this.firstFormGroup.value.lastName }}</mat-list-item>
+        <mat-list-item> <strong>Email:</strong> {{ this.firstFormGroup.value.email }}</mat-list-item>
+    </mat-list>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Thank Lord</ng-template>
+    <p>You are now done.</p>
+    <mat-list>
+      <mat-list-item> <strong>Name:</strong> {{ this.firstFormGroup.value.firstName }} , {{ this.firstFormGroup.value.lastName }}</mat-list-item>
+      <mat-list-item> <strong>Description:</strong> {{ this.firstFormGroup.value.description }}</mat-list-item>
+    </mat-list>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button (click)="submit()">Submit</button>
+    </div>
+
+  </mat-step>
+</mat-vertical-stepper>
