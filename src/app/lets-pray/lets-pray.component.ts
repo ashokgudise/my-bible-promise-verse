@@ -127,6 +127,8 @@ export class LetsPrayComponent {
 
 editUser(user: User) {
 
+    console.log('Update first name'+user.firstName);
+    console.log('Update last name'+user.lastName);
     this.users = this.users.filter((value,key)=>{
       if(value.id == user.id){
         value.firstName = user.firstName;
