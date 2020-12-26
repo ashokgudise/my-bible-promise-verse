@@ -21,6 +21,7 @@ export class LetsPrayComponent {
   title = 'newMat';
   isLinear = true;
   isOptional = true;
+  languageKeys = [];
 
   languages: any[] = [
     {value: 'english', viewValue: 'English'},
@@ -28,7 +29,9 @@ export class LetsPrayComponent {
   ];
 
   selectedLanguage = this.languages[0].value;
+
   selectLanguage(event: Event) {
+    //console.log('Selected Language'+ (event.target as HTMLSelectElement).value );
     this.selectedLanguage = (event.target as HTMLSelectElement).value;
   }
 
@@ -40,6 +43,7 @@ export class LetsPrayComponent {
 
   constructor(private userProfileService: UserProfileService,private _formBuilder: FormBuilder, public dialog: MatDialog, public snackBar: MatSnackBar) {
     this.users = new Array<User>();
+
   }
 
   submit(){
@@ -148,7 +152,7 @@ saveUser(user: User){
       firstName: user.firstName,
       lastName: user.lastName,
       email: '',
-      promiseVerse: this.userProfileService.revealPromiseVerse()
+      promiseVerse: this.userProfileService.revealPromiseVerse(this.selectedLanguage)
     });
   }
   this.loadUsers();
@@ -218,7 +222,7 @@ revealPromiseVerse(){
     firstName: this.firstFormGroup.value.firstName,
     lastName: this.firstFormGroup.value.lastName,
     email: this.firstFormGroup.value.email,
-    promiseVerse: this.userProfileService.revealPromiseVerse()
+    promiseVerse: this.userProfileService.revealPromiseVerse(this.selectedLanguage)
   });
 
   //console.log('inside revealPromiseVerse status:'+ +this.firstFormGroup.invalid);

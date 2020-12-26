@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Languages } from 'src/app/models/languages.enum';
 import { User } from 'src/app/models/user';
 
 @Injectable({
@@ -8,6 +9,10 @@ import { User } from 'src/app/models/user';
 export class UserProfileService {
 
   private url = "http://localhost:3000";
+
+  teluguPromiseVerses: any[] = [
+    { id: 0 , reference: 'సామెతలు 3:6',	text: '"నీ ప్రవర్తన అంతటియందు ఆయన అధికారమునకు ఒప్పుకొనుము అప్పుడు ఆయన నీ త్రోవలను సరాళము చేయును'},
+  ];
 
   promiseVerses: any[] = [
     // tslint:disable-next-line: max-line-length
@@ -330,7 +335,7 @@ export class UserProfileService {
     }
 
 
-    revealPromiseVerse(){
+    revealPromiseVerse(language:string){
 
       var min = 1;
       var max = 177;
@@ -340,6 +345,12 @@ export class UserProfileService {
       var verse  = this.promiseVerses.find(lineItem => lineItem.id == randonNumber);
       console.log('Promise Verse'+ verse.reference)
 
-      return verse;
+      console.log('Selected Language'+language);
+
+      if(language === 'english'){
+        return verse;
+      }else{
+        return this.teluguPromiseVerses[0];
+      }
     }
 }
