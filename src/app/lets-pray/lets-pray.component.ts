@@ -14,22 +14,32 @@ import { UserProfileService } from '../shared/services/user-profile.service';
   selector: 'app-lets-pray',
   templateUrl: './lets-pray.component.html',
   styleUrls: ['./lets-pray.component.scss'],
-
 })
 export class LetsPrayComponent {
 
   themeColor: 'primary' | 'accent' | 'warn' = 'primary';
   title = 'newMat';
   isLinear = true;
-  isOptional = false;
+  isOptional = true;
 
+  languages: any[] = [
+    {value: 'english', viewValue: 'English'},
+    {value: 'telugu', viewValue: 'Telugu'},
+  ];
+
+  selectedLanguage = this.languages[0].value;
+  selectLanguage(event: Event) {
+    this.selectedLanguage = (event.target as HTMLSelectElement).value;
+  }
 
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
   @ViewChild('stepper') stepper: MatStepper;
 
   firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
 
-  constructor(private _formBuilder: FormBuilder, public dialog: MatDialog, public snackBar: MatSnackBar) {
+  constructor(private userProfileService: UserProfileService,private _formBuilder: FormBuilder, public dialog: MatDialog, public snackBar: MatSnackBar) {
+    this.users = new Array<User>();
   }
 
   submit(){
@@ -38,11 +48,13 @@ export class LetsPrayComponent {
 
   //
   @ViewChild(MatPaginator,  {static: true}) paginator: MatPaginator;
+
   addNewUser: User[] = [
       { id: 0,
           firstName: null,
             email: null,
-              lastName: null }
+              lastName: null ,
+                promiseVerse: null}
   ];
 
     users: Array<User>;
@@ -60,8 +72,8 @@ export class LetsPrayComponent {
     @ViewChild(MatSort,  {static: true}) sort: MatSort;
 
     ngOnInit() {
-      this.loadUsers();
       this.dataSourceAddUser = new MatTableDataSource();
+      this.dataSourceUsers = new MatTableDataSource();
 
       // https://bitcom.systems/blog/reactive-forms-in-angular
 
@@ -71,10 +83,7 @@ export class LetsPrayComponent {
         lastName: ['', Validators.required],
         email: [,{validators: [Validators.required, Validators.email]}],
         includeFamily:  false,
-        friendsAndFamily: this._formBuilder.array([
-          this.createMember()
-        ])
-        //friendsAndFamily: this._formBuilder.array([ this.createMember() ])
+        language: this.selectLanguage
       });
   }
 
@@ -104,84 +113,50 @@ export class LetsPrayComponent {
     }
 
     private loadUsers() {
-      this.isLoaded = true;
-      /**
-      this.serv.getUsers().subscribe((data: User[]) => {
-          this.users = data;
-          this.users.sort(function (obj1, obj2) {
-              // Descending: first id less than the previous
-              return obj2.id - obj1.id;
-          });
-          this.isLoaded = false;
-          this.dataSourceUsers = new MatTableDataSource(this.users);
-          this.dataSourceAddUser = new MatTableDataSource(this.addNewUser);
-          this.dataSourceUsers.sort = this.sort;
-          this.dataSourceUsers.paginator = this.paginator;
-      },
-          error => {
-              alert("Error: " + error.name);
-              this.isLoaded = false;
-          }
-      );
-       */
-
       this.dataSourceUsers = new MatTableDataSource(this.users);
       this.dataSourceAddUser = new MatTableDataSource(this.addNewUser);
-      this.dataSourceUsers.sort = this.sort;
       this.dataSourceUsers.paginator = this.paginator;
   }
 
   deleteUserForDialog(user: User) {
-        /**
-         this.serv.deleteUser(user.id).subscribe(data => {
-        this.statusMessage = 'User ' + user.firstName+' '+user.lastName + ' is deleted',
-        this.openSnackBar(this.statusMessage, "Success");
-        **/
-        this.loadUsers();
-    //}
-    //)
-}
-
-editUser(user: User) {
-  /**
-    this.serv.updateUser(user.id, user).subscribe(data => {
-        this.statusMessage = 'User ' + user.firstName + ''+user.lastName +' is updated',
-        this.openSnackBar(this.statusMessage, "Success");
-        this.loadUsers();
-    },
-        error => {
-            this.openSnackBar(error.statusText, "Error");
-        }
-    );
-     */
+    this.users = this.users.filter((value,key)=>{
+      return value.id != user.id;
+    });
     this.loadUsers();
 }
 
-saveUser(user: User) {
-    if (user.firstName != null && user.firstName != "" && user.lastName != null && user.lastName != "") {
-      /**
-      this.serv.createUser(user).subscribe(data => {
-            this.statusMessage = 'User ' + user.firstName + ' '+user.lastName+' is added',
-            this.showTable = false;
-            this.openSnackBar(this.statusMessage, "Success");
-            this.loadUsers();
-        },
-            error => {
-                this.showTable = false;
-                this.openSnackBar(error.statusText, "Error");
-            }
-        );
-         */
-        this.loadUsers();
-    }
-    else {
-        this.openSnackBar("Please enter correct data", "Error")
-    }
+editUser(user: User) {
+
+    this.users = this.users.filter((value,key)=>{
+      if(value.id == user.id){
+        value.firstName = user.firstName;
+        value.lastName = user.lastName;
+      }
+      return true;
+    });
+    this.loadUsers();
 }
+
+saveUser(user: User){
+  if (user.firstName != null && user.firstName != "" && user.lastName != null && user.lastName != "") {
+    var d = new Date();
+    this.users.push({
+      //id: Math.floor(Math.random() * 100),
+      id: (this.users.length+1),
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: '',
+      promiseVerse: this.userProfileService.revealPromiseVerse()
+    });
+  }
+  this.loadUsers();
+}
+
 
 show() {
     this.showTable = true;
-    this.addNewUser = [{ id: 0, firstName: null,  email: null, lastName: null }];
+    this.addNewUser = [{ id: 0, firstName: null,  email: null, lastName: null , promiseVerse: null}];
+    this.dataSourceAddUser = new MatTableDataSource(this.addNewUser);
 }
 cancel() {
     this.showTable = false;
@@ -231,12 +206,20 @@ emailGetErrorMessage() {
 }
  */
 onSubmit(newUser:User){
-    this.newUser = new User(0,"","","");
+    this.newUser = new User(0,"","","","");
 }
 
 revealPromiseVerse(){
-  console.log('inside revealPromiseVerse status:'+ +this.firstFormGroup.invalid);
+  this.users.push({
+    //id: Math.floor(Math.random() * 100),
+    id: (this.users.length+1),
+    firstName: this.firstFormGroup.value.firstName,
+    lastName: this.firstFormGroup.value.lastName,
+    email: this.firstFormGroup.value.email,
+    promiseVerse: this.userProfileService.revealPromiseVerse()
+  });
 
+  //console.log('inside revealPromiseVerse status:'+ +this.firstFormGroup.invalid);
   this.stepper.next();
 }
 
