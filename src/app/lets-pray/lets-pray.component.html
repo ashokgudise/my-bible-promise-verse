@@ -3,17 +3,16 @@
 <h3>Welcome </h3>
 
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
-
    <mat-step>
     <ng-template matStepLabel>Pray</ng-template>
-
     <h3>Greetings in the Name of our Precious Lord, Jesus Christ!.</h3>
     <br/>
     <br/>
     <h3>Please take a moment and pray to continue,</h3>
-
     <br/>
-    <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" matStepperNext>Next</button>
+    <button mat-raised-button
+        [color]="themeColor === 'primary' ? 'primary' : 'no-color'"
+              (click) = "resetFormAndProceed()">Next</button>
   </mat-step>
 
   <mat-step [stepControl]="firstFormGroup">
@@ -62,14 +61,14 @@
       </li>
 
         <div>
-         <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" matStepperNext>Next</button>
+         <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="addMainUserToPromiseVerseList()">Next</button>
        </div>
     </form>
   </mat-step>
 <br/>
 
 <mat-step [optional]="isOptional">
-    <ng-template matStepLabel>Friends and Family</ng-template>
+    <ng-template matStepLabel>Friends and Family <br/> (Optional)</ng-template>
     <!--
     <form [formGroup]="secondFormGroup">
 
@@ -132,7 +131,7 @@
                           <input matInput
                               placeholder="First Name"
                                 [value]="element.firstName"
-                                   [(ngModel)]="element.firstName">
+                                   [(ngModel)]="element.firstName" required>
                       </mat-form-field>
                   </td>
               </ng-container>
@@ -142,7 +141,7 @@
                       <mat-form-field floatLabel="never">
                           <input matInput placeholder="Last Name"
                             [value]="element.lastName"
-                                [(ngModel)]="element.lastName">
+                                [(ngModel)]="element.lastName" required>
                       </mat-form-field>
                   </td>
               </ng-container>
@@ -164,7 +163,6 @@
           </table>
           <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
         </div>
-
         <div>
          <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="revealPromiseVerse()">Next</button>
        </div>
@@ -174,27 +172,24 @@
   <mat-step>
     <ng-template matStepLabel>Promise Verse</ng-template>
     <p>Your Promise Verse</p>
-
       <div *ngFor="let user of users; let i=index">
         <mat-list>
             <mat-list-item> Name: {{ user.firstName }} , {{ user.lastName }}</mat-list-item>
-            <mat-list-item> Promise Verse:  <strong>{{ user.promiseVerse.text }} </strong></mat-list-item>
+            <mat-list-item> Promise Verse:  <strong>{{ user.promiseVerse }} </strong></mat-list-item>
          </mat-list>
       </div>
-
       <div>
-         <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" matStepperNext>Next</button>
+         <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="resetForm()">Next</button>
        </div>
-
   </mat-step>
 
   <mat-step>
     <ng-template matStepLabel>Thank Lord</ng-template>
     <p>You are now done.</p>
 
-
     <br/>
     <h1>Please take a moment and pray. Praise the Lord</h1>
 
+    <button mat-button (click)="stepper.reset()">Reset</button>
   </mat-step>
 </mat-horizontal-stepper>

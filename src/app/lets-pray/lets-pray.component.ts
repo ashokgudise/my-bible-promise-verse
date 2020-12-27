@@ -1,3 +1,4 @@
+import { stringify } from '@angular/compiler/src/util';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,7 +21,7 @@ export class LetsPrayComponent {
   themeColor: 'primary' | 'accent' | 'warn' = 'primary';
   title = 'newMat';
   isLinear = true;
-  isOptional = true;
+  isOptional = false;
   languageKeys = [];
 
   languages: any[] = [
@@ -39,7 +40,6 @@ export class LetsPrayComponent {
   @ViewChild('stepper') stepper: MatStepper;
 
   firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
 
   constructor(private userProfileService: UserProfileService,private _formBuilder: FormBuilder, public dialog: MatDialog, public snackBar: MatSnackBar) {
     this.users = new Array<User>();
@@ -50,15 +50,13 @@ export class LetsPrayComponent {
       console.log(this.firstFormGroup.value);
   }
 
-  //
   @ViewChild(MatPaginator,  {static: true}) paginator: MatPaginator;
-
   addNewUser: User[] = [
       { id: 0,
           firstName: null,
             email: null,
               lastName: null ,
-                promiseVerse: null}
+                promiseVerse: ''}
   ];
 
     users: Array<User>;
@@ -131,20 +129,38 @@ export class LetsPrayComponent {
 
 editUser(user: User) {
 
-    console.log('Update first name'+user.firstName);
-    console.log('Update last name'+user.lastName);
-    this.users = this.users.filter((value,key)=>{
-      if(value.id == user.id){
-        value.firstName = user.firstName;
-        value.lastName = user.lastName;
-      }
-      return true;
-    });
-    this.loadUsers();
+   var usr =   this.getUserById(user.id);
+
+    if (user.firstName != null && user.firstName != "" && user.lastName != null && user.lastName != "") {
+      this.users = this.users.filter((value,key)=>{
+        if(value.id == user.id){
+          value.firstName = user.firstName;
+          value.lastName = user.lastName;
+        }
+        return true;
+      });
+      this.loadUsers();
+      this.openSnackBar('Update Successful!','Update');
+    }else{
+      this.openSnackBar('Invalid Input!','Update');
+    }
+
+}
+
+getUserById(id: number){
+  var user =  this.users.filter(x => x.id === id);
+  return user;
 }
 
 saveUser(user: User){
-  if (user.firstName != null && user.firstName != "" && user.lastName != null && user.lastName != "") {
+
+  var flag = this.checkForDuplicates(user.firstName, user.lastName);
+
+  if(flag){
+    this.openSnackBar('User Already Exists!','Add');
+  }
+  //if(openSnackBar)
+  if (!flag && user.firstName != null && user.firstName != "" && user.lastName != null && user.lastName != "") {
     var d = new Date();
     this.users.push({
       //id: Math.floor(Math.random() * 100),
@@ -152,20 +168,40 @@ saveUser(user: User){
       firstName: user.firstName,
       lastName: user.lastName,
       email: '',
-      promiseVerse: this.userProfileService.revealPromiseVerse(this.selectedLanguage)
+      promiseVerse: null
+      //promiseVerse: this.userProfileService.revealPromiseVerse(this.selectedLanguage)
     });
   }
   this.loadUsers();
+  this.clearForm();
 }
 
+checkForDuplicates(fName: string, lName: string): boolean{
+
+  return this.users.some(item => (
+    (item.firstName.toUpperCase() === fName.toUpperCase())
+                && ( item.lastName.toUpperCase() === lName.toUpperCase())
+                ));  // returns true
+}
 
 show() {
     this.showTable = true;
-    this.addNewUser = [{ id: 0, firstName: null,  email: null, lastName: null , promiseVerse: null}];
+    this.addNewUser = [{ id: 0, firstName: null,  email: null, lastName: null , promiseVerse: ''}];
     this.dataSourceAddUser = new MatTableDataSource(this.addNewUser);
 }
 cancel() {
+    this.clearForm();
     this.showTable = false;
+}
+
+clearForm(){
+
+    this.firstNameFormControl.setValue(null);
+    this.lastNameFormControl.setValue(null);
+
+    this.firstNameFormControl.setErrors(null);
+    this.lastNameFormControl.setErrors(null);
+
 }
 
 //snackBar
@@ -215,18 +251,50 @@ onSubmit(newUser:User){
     this.newUser = new User(0,"","","","");
 }
 
-revealPromiseVerse(){
-  this.users.push({
-    //id: Math.floor(Math.random() * 100),
-    id: (this.users.length+1),
-    firstName: this.firstFormGroup.value.firstName,
-    lastName: this.firstFormGroup.value.lastName,
-    email: this.firstFormGroup.value.email,
-    promiseVerse: this.userProfileService.revealPromiseVerse(this.selectedLanguage)
-  });
+resetForm(){
+  //this.firstFormGroup.reset();
+  this.stepper.next();
+}
 
+resetFormAndProceed(){
+  this.resetForm();
+  this.users = new Array<User>();
+  this.stepper.next();
+}
+
+addMainUserToPromiseVerseList(){
+
+  var flag = this.checkForDuplicates(this.firstFormGroup.value.firstName,
+                                          this.firstFormGroup.value.lastName);
+
+  var firstName = this.firstFormGroup.value.firstName;
+  var lastName = this.firstFormGroup.value.lastName;
+
+  if (!flag && firstName != null && firstName != "" && lastName != null && lastName != "") {
+    this.users.push({
+      //id: Math.floor(Math.random() * 100),
+      id: (this.users.length+1),
+      firstName: this.firstFormGroup.value.firstName,
+      lastName: this.firstFormGroup.value.lastName,
+      email: this.firstFormGroup.value.email,
+      promiseVerse: ''
+      //promiseVerse: this.userProfileService.revealPromiseVerse(this.selectedLanguage)
+    });
+  }
+  this.loadUsers();
   //console.log('inside revealPromiseVerse status:'+ +this.firstFormGroup.invalid);
   this.stepper.next();
 }
+
+revealPromiseVerse(){
+      //console.log('inside revealPromiseVerse status:'+ +this.firstFormGroup.invalid);
+      var verses = this.userProfileService.generateRandomVerses(this.users.length, this.selectedLanguage);
+      JSON.stringify('Stringify version of Vers:'+verses);
+      for (let i = 0; i < this.users.length; i++) {
+          this.users[i].promiseVerse = verses[i].text;
+          //console.log('Verse'+ verses[i].text)
+      }
+      this.stepper.next();
+  }
 
 }
