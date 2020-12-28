@@ -9,6 +9,7 @@ import { MaterialModule } from './material/material.module';
 import { LetsPrayComponent } from './lets-pray/lets-pray.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

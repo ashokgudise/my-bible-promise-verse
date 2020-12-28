@@ -32,3 +32,31 @@ mat-toolbar {
 .content > mat-card {
   margin-bottom: 17px;
 }
+
+
+.img {
+  width: 60%;
+  margin-bottom: 18%;
+}
+.card-picture {
+  width: 23%;
+  margin-bottom: 2%;
+}
+.container {
+  min-height: 80%;
+  width: 80%;
+}
+
+.example-card {
+  max-width: 80%;
+  margin-bottom: 17px;
+}
+
+.example-header-image {
+  //background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+mat-card::ng-deep.mat-card-header-text {
+  width: 80%;
+}

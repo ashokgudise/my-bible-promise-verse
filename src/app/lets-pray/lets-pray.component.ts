@@ -9,10 +9,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { User } from '../models/user';
 import { DilogConfirmationComponent } from '../shared/components/dilog-confirmation/dilog-confirmation.component';
-import { FlickrImagesService } from '../shared/services/flickr-images.service';
 import { UserProfileService } from '../shared/services/user-profile.service';
-import {MediaChange, MediaObserver} from '@angular/flex-layout';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-lets-pray',
@@ -29,9 +26,7 @@ export class LetsPrayComponent {
 
   images = [];
   gridColumns = 1;
-  toggleGridColumns() {
-    this.gridColumns = this.gridColumns === 3 ? 4 : 3;
-  }
+
 
   languages: any[] = [
     {value: 'english', viewValue: 'English'},
@@ -55,7 +50,7 @@ export class LetsPrayComponent {
   }
 
   submit(){
-      //console.log(this.firstFormGroup.value);
+      console.log(this.firstFormGroup.value);
   }
 
   @ViewChild(MatPaginator,  {static: true}) paginator: MatPaginator;
@@ -231,7 +226,7 @@ openDialog(element): void {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        //console.log('The dialog was closed');
+        console.log('The dialog was closed');
         if (result == "Confirm") {
             this.deleteUserForDialog(element);
         }
@@ -308,7 +303,7 @@ revealPromiseVerse(){
       for (let i = 0; i < this.users.length; i++) {
           this.users[i].promiseVerse = verses[i].text;
           this.users[i].imgSrc = imgSrcs[i];
-          //console.log('Verse'+ imgSrcs[i]);
+          console.log('Verse'+ imgSrcs[i]);
       }
       this.stepper.next();
   }

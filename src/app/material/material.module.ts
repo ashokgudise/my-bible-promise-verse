@@ -40,8 +40,6 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { PlatformModule } from '@angular/cdk/platform';
 import { ObserversModule } from '@angular/cdk/observers';
 import { PortalModule } from '@angular/cdk/portal';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   exports: [
@@ -51,7 +49,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatToolbarModule,
     MatCheckboxModule,
     MatIconModule,
-    MatButtonModule,
     MatTooltipModule,
     MatMenuModule,
     MatBadgeModule,
@@ -88,8 +85,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     PlatformModule,
     PortalModule,
     MatButtonModule,
-    BrowserAnimationsModule,
-    FlexLayoutModule
   ],
   imports: [
     CommonModule

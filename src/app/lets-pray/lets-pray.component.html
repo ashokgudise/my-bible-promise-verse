@@ -181,36 +181,30 @@
   <mat-step>
     <ng-template matStepLabel>Promise Verse</ng-template>
 
-        <div
-        fxLayout="row wrap"
-        fxLayout.lt-sm="column"
-        fxLayoutGap="32px"
-        fxLayoutAlign="flex-start">
-            <div *ngFor="let user of users; let i=index">
-              <mat-card class="mat-elevation-z4">
-                <mat-card-header>
-                  <mat-card-title>{{user.firstName}},{{user.lastName}}</mat-card-title>
-                </mat-card-header>
-                  <img mat-card-image src="{{user.imgSrc}}">
-                <mat-card-content>
-                  <p>
-                    <strong>{{user.promiseVerse}}</strong>
-                  </p>
-                </mat-card-content>
-                <!--
-                <mat-card-actions>
-                  <button mat-button>LIKE</button>
-                  <button mat-button>SHARE</button>
-                </mat-card-actions>
-                -->
-              </mat-card>
-              <br/>
-            </div>
-        </div>
-        <div>
-          <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="resetForm()">Next</button>
-        </div>
+      <div *ngFor="let user of users; let i=index">
+        <mat-card class="example-card mat-elevation-z5">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{user.firstName}},{{user.lastName}}</mat-card-title>
+            <mat-card-subtitle>2021</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image src="{{user.imgSrc}}" alt="{{user.firstName}},{{user.lastName}}'s 2021 Year Promise">
+          <mat-card-content>
+             <h4> {{user.promiseVerse}}</h4>
+          </mat-card-content>
+          <!--
+          <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+          -->
+        </mat-card>
+        <br/>
+      </div>
 
+      <div>
+        <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="resetForm()">Next</button>
+      </div>
   </mat-step>
 
   <mat-step>
