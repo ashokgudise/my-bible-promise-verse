@@ -11,6 +11,8 @@ import { User } from '../models/user';
 import { DilogConfirmationComponent } from '../shared/components/dilog-confirmation/dilog-confirmation.component';
 import { FlickrImagesService } from '../shared/services/flickr-images.service';
 import { UserProfileService } from '../shared/services/user-profile.service';
+import {MediaChange, MediaObserver} from '@angular/flex-layout';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-lets-pray',
