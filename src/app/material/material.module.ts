@@ -41,6 +41,7 @@ import { PlatformModule } from '@angular/cdk/platform';
 import { ObserversModule } from '@angular/cdk/observers';
 import { PortalModule } from '@angular/cdk/portal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   exports: [
@@ -87,15 +88,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PlatformModule,
     PortalModule,
     MatButtonModule,
-    MatCheckboxModule,
     BrowserAnimationsModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatSortModule,
-    MatTableModule,
-    MatCardModule,
-    MatProgressBarModule
+    FlexLayoutModule
   ],
   imports: [
     CommonModule

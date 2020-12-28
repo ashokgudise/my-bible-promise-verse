@@ -9,6 +9,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { User } from '../models/user';
 import { DilogConfirmationComponent } from '../shared/components/dilog-confirmation/dilog-confirmation.component';
+import { FlickrImagesService } from '../shared/services/flickr-images.service';
 import { UserProfileService } from '../shared/services/user-profile.service';
 
 @Component({
@@ -23,6 +24,12 @@ export class LetsPrayComponent {
   isLinear = true;
   isOptional = false;
   languageKeys = [];
+
+  images = [];
+  gridColumns = 1;
+  toggleGridColumns() {
+    this.gridColumns = this.gridColumns === 3 ? 4 : 3;
+  }
 
   languages: any[] = [
     {value: 'english', viewValue: 'English'},
@@ -43,11 +50,10 @@ export class LetsPrayComponent {
 
   constructor(private userProfileService: UserProfileService,private _formBuilder: FormBuilder, public dialog: MatDialog, public snackBar: MatSnackBar) {
     this.users = new Array<User>();
-
   }
 
   submit(){
-      console.log(this.firstFormGroup.value);
+      //console.log(this.firstFormGroup.value);
   }
 
   @ViewChild(MatPaginator,  {static: true}) paginator: MatPaginator;
@@ -56,7 +62,9 @@ export class LetsPrayComponent {
           firstName: null,
             email: null,
               lastName: null ,
-                promiseVerse: ''}
+                promiseVerse: '',
+                  imgSrc: ''},
+
   ];
 
     users: Array<User>;
@@ -83,7 +91,8 @@ export class LetsPrayComponent {
         id: 0,
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
-        email: [,{validators: [Validators.required, Validators.email]}],
+        email: [],
+//        email: [,{validators: [Validators.required, Validators.email]}],
         includeFamily:  false,
         language: this.selectLanguage
       });
@@ -168,7 +177,8 @@ saveUser(user: User){
       firstName: user.firstName,
       lastName: user.lastName,
       email: '',
-      promiseVerse: null
+      promiseVerse: null,
+      imgSrc: ''
       //promiseVerse: this.userProfileService.revealPromiseVerse(this.selectedLanguage)
     });
   }
@@ -186,7 +196,7 @@ checkForDuplicates(fName: string, lName: string): boolean{
 
 show() {
     this.showTable = true;
-    this.addNewUser = [{ id: 0, firstName: null,  email: null, lastName: null , promiseVerse: ''}];
+    this.addNewUser = [{ id: 0, firstName: null,  email: null, lastName: null , promiseVerse: '', imgSrc: ''}];
     this.dataSourceAddUser = new MatTableDataSource(this.addNewUser);
 }
 cancel() {
@@ -219,7 +229,7 @@ openDialog(element): void {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
+        //console.log('The dialog was closed');
         if (result == "Confirm") {
             this.deleteUserForDialog(element);
         }
@@ -248,7 +258,7 @@ emailGetErrorMessage() {
 }
  */
 onSubmit(newUser:User){
-    this.newUser = new User(0,"","","","");
+    this.newUser = new User(0,"","","","","");
 }
 
 resetForm(){
@@ -277,7 +287,8 @@ addMainUserToPromiseVerseList(){
       firstName: this.firstFormGroup.value.firstName,
       lastName: this.firstFormGroup.value.lastName,
       email: this.firstFormGroup.value.email,
-      promiseVerse: ''
+      promiseVerse: '',
+      imgSrc: ''
       //promiseVerse: this.userProfileService.revealPromiseVerse(this.selectedLanguage)
     });
   }
@@ -289,12 +300,16 @@ addMainUserToPromiseVerseList(){
 revealPromiseVerse(){
       //console.log('inside revealPromiseVerse status:'+ +this.firstFormGroup.invalid);
       var verses = this.userProfileService.generateRandomVerses(this.users.length, this.selectedLanguage);
+      var imgSrcs = this.userProfileService.generateRandomImages(this.users.length);
       JSON.stringify('Stringify version of Vers:'+verses);
+
       for (let i = 0; i < this.users.length; i++) {
           this.users[i].promiseVerse = verses[i].text;
-          //console.log('Verse'+ verses[i].text)
+          this.users[i].imgSrc = imgSrcs[i];
+          //console.log('Verse'+ imgSrcs[i]);
       }
       this.stepper.next();
   }
+
 
 }

@@ -14,3 +14,24 @@
 .mat-form-field--inline .mat-form-field:nth-child(1) {
   margin-right: 10px;
 }
+
+
+.bullet-list ul {
+  padding-left: 17px;
+  margin: 0px;
+}
+
+mat-toolbar {
+  justify-content: space-between;
+}
+
+.content {
+  padding: 17px;
+}
+
+.content > mat-card {
+  margin-bottom: 17px;
+
+
+
+}

@@ -4,6 +4,7 @@ export class User {
     public firstName: string,
     public lastName: string,
     public email: string,
-    public promiseVerse: string
+    public promiseVerse: string,
+    public imgSrc: string,
 ) { }
 }

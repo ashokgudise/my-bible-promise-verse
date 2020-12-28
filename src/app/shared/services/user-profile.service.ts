@@ -398,17 +398,18 @@ export class UserProfileService {
       }
     }
 
-    generateRandomVerses(members: number, language:string){
-
-      var max = 0;
-      if(language === 'english'){
-        max = this.promiseVerses.length;
-      }else{
-        max = this.teluguPromiseVerses.length;
+    generateRandomImages(members: number){
+      let randomNumbers = [];
+      let randomImages = [];
+      randomNumbers = this.getRandomNumbers(8, members);
+      for (let num of randomNumbers) {
+        randomImages.push('../assets/'+(num+1)+'.jpg');
       }
+      return randomImages;
+    }
 
+    getRandomNumbers(max : number, members:number){
       let arr = [];
-      let versArray = [];
           do {
             let num = Math.floor(Math.random() * max + 0);
             arr.push(num);
@@ -416,21 +417,34 @@ export class UserProfileService {
               return arr.indexOf(item) === index
             });
           } while (arr.length < members);
+      return arr;
+    }
 
-            for (let num of arr) {
-              console.log(num);
-              if(language === 'english'){
-                var verse  = this.promiseVerses.find(lineItem => lineItem.id == num);
-                versArray.push(verse);
-                //console.log('433 Before Return: \t'+JSON.stringify(verse));
-              }else{
-                var verse  = this.teluguPromiseVerses.find(lineItem => lineItem.id == num);
-                versArray.push(verse);
-                //console.log('436 Before Return: \t'+JSON.stringify(verse));
-              }
-            }
+    generateRandomVerses(members: number, language:string){
+      var max = 0;
+      let arr = [];
+      let versArray = [];
 
-          console.log('Before Return: \t'+JSON.stringify(versArray));
+      if(language === 'english'){
+        max = this.promiseVerses.length;
+        arr = this.getRandomNumbers(max, members);
+      }else{
+        max = this.teluguPromiseVerses.length;
+        arr = this.getRandomNumbers(max, members);
+      }
+        for (let num of arr) {
+          //console.log(num);
+          if(language === 'english'){
+            var verse  = this.promiseVerses.find(lineItem => lineItem.id == num);
+            versArray.push(verse);
+            //console.log('433 Before Return: \t'+JSON.stringify(verse));
+          }else{
+            var verse  = this.teluguPromiseVerses.find(lineItem => lineItem.id == num);
+            versArray.push(verse);
+            //console.log('436 Before Return: \t'+JSON.stringify(verse));
+          }
+        }
+    //console.log('Before Return: \t'+JSON.stringify(versArray));
     return versArray;
 }
 

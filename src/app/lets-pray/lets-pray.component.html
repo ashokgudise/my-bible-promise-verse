@@ -1,15 +1,20 @@
-<!--<h1>Hello There</h1> -->
-
 <h3>Welcome </h3>
-
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
    <mat-step>
-    <ng-template matStepLabel>Pray</ng-template>
-    <h3>Greetings in the Name of our Precious Lord, Jesus Christ!.</h3>
-    <br/>
-    <br/>
-    <h3>Please take a moment and pray to continue,</h3>
-    <br/>
+    <ng-template matStepLabel >Pray</ng-template>
+    <h4>Greetings in the Name of our Precious Lord, Jesus Christ!.</h4>
+
+    <p>For all the promises of God in Him are yea, and in Him Amen, unto the glory of God by us. - <strong>2 Cor. 1:20</strong></p>
+    <p>Please take a moment and pray to continue,</p>
+    <ul>
+		  <li>Pray for a promise from the scriptures.</li>
+      <li>Pray that the Lord would help you to trust His Word.</li>
+		  <li>Pray that the Lord would help you to apply His Word in your life.</li>
+	  </ul>
+    <p>Taste and see that the LORD is good, blessed is the one who takes refuge in Him. - <strong>Psalms 34:8</strong></p>
+ <br/>
+ <br/>
+
     <button mat-raised-button
         [color]="themeColor === 'primary' ? 'primary' : 'no-color'"
               (click) = "resetFormAndProceed()">Next</button>
@@ -35,6 +40,9 @@
         <mat-form-field>
           <mat-label>Email</mat-label>
           <input type="email" matInput formControlName="email"
+          placeholder="Ex. mail@gmail.com"/>
+          <!--
+          <input type="email" matInput formControlName="email"
           placeholder="Ex. mail@gmail.com" required/>
           <mat-error *ngIf="
           firstFormGroup.get('email').hasError('email')
@@ -45,6 +53,7 @@
           *ngIf="firstFormGroup.get('email').hasError('required')">
           Email is <strong>required</strong>
           </mat-error>
+          -->
           <br/>
         </mat-form-field>
 
@@ -170,26 +179,70 @@
 
 <br/>
   <mat-step>
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+      <div fxFlex.xs="15%" fxFlex.sm="30%" *ngFor="let user of users; let i=index">
+        <mat-card class="mat-elevation-z4">
+          <mat-card-header>
+            <mat-card-title>{{user.firstName}},{{user.lastName}}</mat-card-title>
+          </mat-card-header>
+             <img mat-card-image src="{{user.imgSrc}}">
+          <mat-card-content>
+            <p>
+              <strong>{{user.promiseVerse}}</strong>
+            </p>
+          </mat-card-content>
+          <!--
+          <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+          -->
+        </mat-card>
+        <br/>
+      </div>
+    </div>
+
+
+    <!--
     <ng-template matStepLabel>Promise Verse</ng-template>
     <p>Your Promise Verse</p>
       <div *ngFor="let user of users; let i=index">
+
         <mat-list>
             <mat-list-item> Name: {{ user.firstName }} , {{ user.lastName }}</mat-list-item>
             <mat-list-item> Promise Verse:  <strong>{{ user.promiseVerse }} </strong></mat-list-item>
          </mat-list>
       </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-4 p-3" *ngFor="let image of images">
+          <div class="card">
+            <a href="{{image.url}}_b.jpg">
+              <img src="{{image.url}}_m.jpg" title="{{image.title}}">
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div>
          <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="resetForm()">Next</button>
        </div>
+    -->
   </mat-step>
 
   <mat-step>
     <ng-template matStepLabel>Thank Lord</ng-template>
-    <p>You are now done.</p>
-
+    <h4>Praise the Lord.</h4>
     <br/>
-    <h1>Please take a moment and pray. Praise the Lord</h1>
+    <p>“Having therefore, these promises, dearly beloved, let us cleanse ourselves from all filthiness of the flesh and spirit, perfecting holiness in the fear of God”. - <strong>2 Corinthians 7:1</strong></p>
+    <p>Please take a moment to thank the Lord</p>
+     <ul>
+		  <li>Pray for a promise from the scriptures.</li>
+      <li>Pray that the Lord would help you to trust His Word.</li>
+		  <li>Pray that the Lord would help you to apply His Word in your life.</li>
+	  </ul>
 
-    <button mat-button (click)="stepper.reset()">Reset</button>
+    <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="stepper.reset()">Reset</button>
+
   </mat-step>
 </mat-horizontal-stepper>

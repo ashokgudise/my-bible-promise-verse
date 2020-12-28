@@ -1,9 +1,10 @@
-
-<div [class.dark-theme]="isDark">
+<div>
   <mat-toolbar [color]="themeColor">
+  <!--
   <span class="nav-tool-items">
     <mat-icon (click)="sidenav.toggle()" class="hamburger">menu</mat-icon>
   </span>
+  -->
    <span>My Promise Verse</span>
 
    <span class="example-spacer"> </span>
@@ -13,12 +14,14 @@
         brightness_medium
       </mat-icon>
     </button>
--->
+
     <button mat-button [matMenuTriggerFor]="menu" class="menu-button" matTooltip="Select a theme color">
+
     <mat-icon>
         format_color_fill
       </mat-icon>
     </button>
+-->
     <ng-template #noRadio>
       radio_button_unchecked
     </ng-template>
@@ -43,7 +46,8 @@
       </button>
     </mat-menu>
   </mat-toolbar>
-  <mat-sidenav-container class="example-container">
+
+  <mat-sidenav-container  class="example-container">
   <mat-sidenav #sidenav [attr.color]="themeColor" [mode]="isBiggerScreen() ? 'over' : 'side'" [(opened)]="opened" [fixedInViewport]="true" [fixedTopGap]>
       <!--
       <mat-nav-list>
@@ -56,7 +60,7 @@
       </mat-nav-list>
   -->
     </mat-sidenav>
-    <mat-sidenav-content>
+    <mat-sidenav-content [attr.color]="themeColor"  >
       <ng-content []></ng-content>
     </mat-sidenav-content>
   </mat-sidenav-container>
