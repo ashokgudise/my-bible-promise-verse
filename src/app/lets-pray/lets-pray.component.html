@@ -14,7 +14,6 @@
     <p>Taste and see that the LORD is good, blessed is the one who takes refuge in Him. - <strong>Psalms 34:8</strong></p>
  <br/>
  <br/>
-
     <button mat-raised-button
         [color]="themeColor === 'primary' ? 'primary' : 'no-color'"
               (click) = "resetFormAndProceed()">Next</button>
@@ -25,12 +24,12 @@
       <ng-template matStepLabel>About You</ng-template>
       <li class="mat-form-field--inline">
         <mat-form-field>
-          <mat-label>Name</mat-label>
+          <mat-label>First Name</mat-label>
           <input matInput placeholder="First Name" formControlName="firstName" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Name</mat-label>
+          <mat-label>Last Name</mat-label>
           <input matInput placeholder="Last Name" formControlName="lastName" required>
         </mat-form-field>
       </li>
@@ -70,14 +69,15 @@
       </li>
 
         <div>
-         <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="addMainUserToPromiseVerseList()">Next</button>
+         <button class="previous" mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" matStepperPrevious>Previous</button>
+         <button class="next" mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="addMainUserToPromiseVerseList()">Next</button>
        </div>
     </form>
   </mat-step>
 <br/>
 
 <mat-step [optional]="isOptional">
-    <ng-template matStepLabel>Friends and Family <br/> (Optional)</ng-template>
+    <ng-template matStepLabel>Family<br/>(Optional)</ng-template>
     <!--
     <form [formGroup]="secondFormGroup">
 
@@ -173,14 +173,25 @@
           <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
         </div>
         <div>
-         <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="revealPromiseVerse()">Next</button>
+         <button class="previous" mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" matStepperPrevious>Previous</button>
+         <button class="next"     mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="revealPromiseVerse()">Next</button>
        </div>
 </mat-step>
 
 <br/>
   <mat-step>
     <ng-template matStepLabel>Promise Verse</ng-template>
-
+<!--
+      <div *ngFor="let user of users; let i=index">
+        <div class="imagecard">
+        <img src="{{user.imgSrc}}" alt="{{user.firstName}},{{user.lastName}}'s 2021 Year Promise" style="width:100%;">
+        <div class="bottom-left">Bottom Left</div>
+        <div class="top-left">Top Left</div>
+        <div class="top-right">Top Right</div>
+        <div class="bottom-right">Bottom Right</div>
+        <div class="centered">Centered</div>
+      </div>
+      -->
       <div *ngFor="let user of users; let i=index">
         <mat-card class="example-card mat-elevation-z5">
           <mat-card-header>
@@ -188,11 +199,12 @@
             <mat-card-title>{{user.firstName}},{{user.lastName}}</mat-card-title>
             <mat-card-subtitle>2021</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image src="{{user.imgSrc}}" alt="{{user.firstName}},{{user.lastName}}'s 2021 Year Promise">
+          <img mat-card-image class="imagecard" src="{{user.imgSrc}}" alt="{{user.firstName}},{{user.lastName}}'s 2021 Year Promise">
+          <div class="centered verse">{{user.promiseVerse}}</div>
+          <!--
           <mat-card-content>
              <h4> {{user.promiseVerse}}</h4>
           </mat-card-content>
-          <!--
           <mat-card-actions>
             <button mat-button>LIKE</button>
             <button mat-button>SHARE</button>
@@ -201,9 +213,9 @@
         </mat-card>
         <br/>
       </div>
-
       <div>
-        <button mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="resetForm()">Next</button>
+        <button class="previous" mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" matStepperPrevious>Previous</button>
+        <button class="next"      mat-raised-button [color]="themeColor === 'primary' ? 'primary' : 'no-color'" (click)="resetForm()">Next</button>
       </div>
   </mat-step>
 

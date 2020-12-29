@@ -29,34 +29,65 @@ mat-toolbar {
   padding: 17px;
 }
 
-.content > mat-card {
-  margin-bottom: 17px;
+.previous{
+  float: left
 }
 
-
-.img {
-  width: 60%;
-  margin-bottom: 18%;
-}
-.card-picture {
-  width: 23%;
-  margin-bottom: 2%;
-}
-.container {
-  min-height: 80%;
-  width: 80%;
+.next{
+float: right
 }
 
-.example-card {
-  max-width: 80%;
-  margin-bottom: 17px;
+.imagecard {
+  position: relative;
+  text-align: center;
+  color: white;
 }
 
-.example-header-image {
-  //background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  background-size: cover;
+/* Bottom left text */
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
 }
 
-mat-card::ng-deep.mat-card-header-text {
-  width: 80%;
+/* Top left text */
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+/* Top right text */
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+/* Bottom right text */
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+/* Centered text */
+.centered {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.verse{
+    //font-family: ABeeZee, sans-serif;
+    font-size: 25px;
+    font-weight: 100;
+    color: rgba(230, 221, 222, 1);
+    text-transform: none;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 2em;
+    letter-spacing: 0px;
 }

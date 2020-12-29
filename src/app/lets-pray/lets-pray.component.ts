@@ -264,7 +264,7 @@ resetForm(){
 }
 
 resetFormAndProceed(){
-  this.resetForm();
+  //this.resetForm();
   this.users = new Array<User>();
   this.stepper.next();
 }
