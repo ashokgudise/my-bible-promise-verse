@@ -82,12 +82,51 @@ float: right
 
 .verse{
     //font-family: ABeeZee, sans-serif;
-    font-size: 25px;
-    font-weight: 100;
-    color: rgba(230, 221, 222, 1);
+    font-size: 15px;
+    font-weight: 50;
+    color: rgb(95, 144, 218);
     text-transform: none;
     font-style: normal;
     text-decoration: none;
     line-height: 2em;
     letter-spacing: 0px;
 }
+
+.mat-input-element {
+  font: inherit;
+  background: transparent;
+  color: currentColor;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  vertical-align: bottom;
+  text-align: inherit;
+}
+
+table {
+  display: table;
+  border-collapse: separate;
+  box-sizing: border-box;
+  text-indent: initial;
+  border-spacing: 2px;
+  border-color: grey;
+}
+
+.md-unstyled-image img{
+  max-width: 50%;
+  width: auto;
+  height: auto !important; /* needs to be important because md-card also sets it that way */
+}
+
+.example-card {
+  max-width: 500px;
+}
+
+.example-header-image {
+  //background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+

@@ -289,5 +289,9 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
   box-sizing: content-box;
   -webkit-tap-highlight-color: transparent;
   border-radius: 14px 14px 14px 14px;
+}
 
+.mat-header-cell {
+  font-size: 12px;
+  font-weight: 100;
 }

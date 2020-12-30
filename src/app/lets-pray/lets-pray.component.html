@@ -87,7 +87,7 @@
         <div >
             <table mat-table [dataSource]="dataSourceAddUser" >
                   <!-- Name Column -->
-                  <ng-container matColumnDef="FirstName">
+                  <ng-container matColumnDef="FirstName" fxFlex="10px">
                       <th mat-header-cell *matHeaderCellDef> </th>
                       <td mat-cell *matCellDef="let element">
                           <mat-form-field floatLabel="never">
@@ -97,7 +97,7 @@
                       </td>
                   </ng-container>
                   <!-- Surname Column -->
-                  <ng-container matColumnDef="LastName" fxFlex="40px">
+                  <ng-container matColumnDef="LastName" fxFlex="10px">
                       <th mat-header-cell *matHeaderCellDef> </th>
                       <td mat-cell *matCellDef="let element">
                           <mat-form-field floatLabel="never">
@@ -107,20 +107,27 @@
                       </td>
                   </ng-container>
                   <!-- Save Column -->
-                  <ng-container matColumnDef="Save">
+                  <ng-container matColumnDef="Action" fxFlex="5px">
                       <th mat-header-cell *matHeaderCellDef> </th>
                       <td mat-cell *matCellDef="let element">
-                          <button mat-raised-button (click)="saveUser(element)"  [disabled]="firstNameFormControl.invalid  || lastNameFormControl.invalid"> <mat-icon color="accent">save</mat-icon>
-                              Save </button>
+                          <button mat-raised-button (click)="saveUser(element)"
+                              [disabled]="firstNameFormControl.invalid || lastNameFormControl.invalid">
+                            <mat-icon color="accent">save</mat-icon> Save </button>
+                            <!--
+                              <button mat-raised-button (click)="cancel()">
+                              <mat-icon color="accent">cancel</mat-icon> Cancel </button>
+                            -->
                       </td>
                   </ng-container>
                   <!-- Cancel Column -->
-                  <ng-container matColumnDef="Cancel">
+                  <!--
+                  <ng-container matColumnDef="Cancel" fxFlex="5px">
                       <th mat-header-cell *matHeaderCellDef> </th>
                       <td mat-cell *matCellDef="let element">
                           <button mat-raised-button (click)="cancel()"> <mat-icon color="accent">cancel</mat-icon> Cancel </button>
                       </td>
                   </ng-container>
+                  -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsAddUser"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsAddUser;"></tr>
             </table>
@@ -129,10 +136,12 @@
         <div>
          <mat-label>Friends and Family</mat-label>
           <table mat-table [dataSource]="dataSourceUsers" matSort >
+              <!--
               <ng-container matColumnDef="id">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
                   <td mat-cell *matCellDef="let element"> {{element.id}} </td>
               </ng-container>
+            -->
               <ng-container matColumnDef="FirstName" fxFlex="40px">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
                   <td mat-cell *matCellDef="let element">
@@ -144,6 +153,7 @@
                       </mat-form-field>
                   </td>
               </ng-container>
+
               <ng-container matColumnDef="LastName" fxFlex="40px">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
                   <td mat-cell *matCellDef="let element">
@@ -199,12 +209,13 @@
             <mat-card-title>{{user.firstName}},{{user.lastName}}</mat-card-title>
             <mat-card-subtitle>2021</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image class="imagecard" src="{{user.imgSrc}}" alt="{{user.firstName}},{{user.lastName}}'s 2021 Year Promise">
+          <img mat-card-image class="example-card" src="{{user.imgSrc}}" alt="{{user.firstName}},{{user.lastName}}'s 2021 Year Promise">
           <div class="centered verse">{{user.promiseVerse}}</div>
-          <!--
+
           <mat-card-content>
              <h4> {{user.promiseVerse}}</h4>
           </mat-card-content>
+           <!--
           <mat-card-actions>
             <button mat-button>LIKE</button>
             <button mat-button>SHARE</button>
