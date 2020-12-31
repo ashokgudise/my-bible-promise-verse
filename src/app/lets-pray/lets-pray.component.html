@@ -110,7 +110,7 @@
                       <th mat-header-cell *matHeaderCellDef> </th>
                       <td mat-cell *matCellDef="let element">
                           <mat-form-field floatLabel="never">
-                              <input [value]="element.firstName" [(ngModel)]="element.firstName" matInput placeholder="Enter your name" [formControl]="firstNameFormControl" required>
+                              <input [value]="element.firstName" [(ngModel)]="element.firstName" matInput placeholder="First Name" [formControl]="firstNameFormControl" required>
                               <mat-error *ngIf="firstNameFormControl.invalid">{{getFirstNameErrorMessage()}}</mat-error>
                           </mat-form-field>
                       </td>
@@ -120,7 +120,7 @@
                       <th mat-header-cell *matHeaderCellDef> </th>
                       <td mat-cell *matCellDef="let element">
                           <mat-form-field floatLabel="never">
-                              <input matInput placeholder="LastName" [value]="element.lastName" [(ngModel)]="element.lastName" required [formControl]="lastNameFormControl">
+                              <input matInput placeholder="Last Name" [value]="element.lastName" [(ngModel)]="element.lastName" required [formControl]="lastNameFormControl">
                               <mat-error *ngIf="lastNameFormControl.invalid">{{getLastNameErrorMessage()}}</mat-error>
                           </mat-form-field>
                       </td>
