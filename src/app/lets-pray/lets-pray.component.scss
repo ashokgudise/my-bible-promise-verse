@@ -105,7 +105,7 @@ float: right
   vertical-align: bottom;
   text-align: inherit;
 }
-
+/**
 table {
   display: table;
   border-collapse: separate;
@@ -113,6 +113,19 @@ table {
   text-indent: initial;
   border-spacing: 2px;
   border-color: grey;
+}
+**/
+
+table {
+  width: 80%;
+  table-layout: fixed;
+}
+
+th, td {
+  overflow: hidden;
+  width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .md-unstyled-image img{
