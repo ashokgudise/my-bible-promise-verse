@@ -86,6 +86,25 @@
         <button mat-raised-button (click)="show()"> <mat-icon color="accent">add</mat-icon> Add User </button>
         <div >
             <table mat-table [dataSource]="dataSourceAddUser" >
+
+             <!-- Save Column -->
+                  <ng-container matColumnDef="Action" fxFlex="5px">
+                      <th mat-header-cell *matHeaderCellDef> </th>
+                      <td mat-cell *matCellDef="let element">
+                          <button mat-raised-button
+                          [color]="themeColor === 'primary' ? 'primary' : 'no-color'"
+                          (click)="saveUser(element)"
+                              [disabled]="firstNameFormControl.invalid || lastNameFormControl.invalid">
+                            <!--
+                            <mat-icon color="accent">save</mat-icon>
+                            -->
+                            Save </button>
+                            <!--
+                              <button mat-raised-button (click)="cancel()">
+                              <mat-icon color="accent">cancel</mat-icon> Cancel </button>
+                            -->
+                  </td>
+                  </ng-container>
                   <!-- Name Column -->
                   <ng-container matColumnDef="FirstName" fxFlex="10px">
                       <th mat-header-cell *matHeaderCellDef> </th>
@@ -106,19 +125,7 @@
                           </mat-form-field>
                       </td>
                   </ng-container>
-                  <!-- Save Column -->
-                  <ng-container matColumnDef="Action" fxFlex="5px">
-                      <th mat-header-cell *matHeaderCellDef> </th>
-                      <td mat-cell *matCellDef="let element">
-                          <button mat-raised-button (click)="saveUser(element)"
-                              [disabled]="firstNameFormControl.invalid || lastNameFormControl.invalid">
-                            <mat-icon color="accent">save</mat-icon> Save </button>
-                            <!--
-                              <button mat-raised-button (click)="cancel()">
-                              <mat-icon color="accent">cancel</mat-icon> Cancel </button>
-                            -->
-                      </td>
-                  </ng-container>
+
                   <!-- Cancel Column -->
                   <!--
                   <ng-container matColumnDef="Cancel" fxFlex="5px">
@@ -142,6 +149,18 @@
                   <td mat-cell *matCellDef="let element"> {{element.id}} </td>
               </ng-container>
             -->
+             <ng-container matColumnDef="Delete">
+                  <th mat-header-cell *matHeaderCellDef> </th>
+                  <td mat-cell *matCellDef="let element">
+                      <button mat-raised-button
+                       [color]="themeColor === 'primary' ? 'primary' : 'no-color'"
+                       (click)="openDialog(element)">
+<!--
+                      <mat-icon color="accent">delete</mat-icon>
+-->
+                       Delete</button>
+                  </td>
+              </ng-container>
               <ng-container matColumnDef="FirstName" fxFlex="40px">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
                   <td mat-cell *matCellDef="let element">
@@ -164,19 +183,16 @@
                       </mat-form-field>
                   </td>
               </ng-container>
-
+<!--
               <ng-container matColumnDef="Change">
                   <th mat-header-cell *matHeaderCellDef> </th>
                   <td mat-cell *matCellDef="let element">
                       <button mat-raised-button (click)="editUser(element)"  > <mat-icon color="accent">edit</mat-icon> Update </button>
                   </td>
+
               </ng-container>
-              <ng-container matColumnDef="Delete">
-                  <th mat-header-cell *matHeaderCellDef> </th>
-                  <td mat-cell *matCellDef="let element">
-                      <button mat-raised-button (click)="openDialog(element)"> <mat-icon color="accent">delete</mat-icon> Delete</button>
-                  </td>
-              </ng-container>
+              -->
+
               <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers;"></tr>
           </table>

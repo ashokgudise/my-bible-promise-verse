@@ -69,8 +69,8 @@ export class LetsPrayComponent {
     statusMessage: string;
     isLoaded: boolean = true;
 
-    displayedColumnsUsers: string[] = ['FirstName', 'LastName',  'Delete']; //['id', 'name', 'surname',  'email', 'Change', 'Delete'];
-    displayedColumnsAddUser: string[] = ['FirstName', 'LastName', 'Action']; //['Name', 'Surname', 'Age', 'Email', 'Save', 'Cancel'];
+    displayedColumnsUsers: string[] = [ 'Delete' , 'FirstName', 'LastName',  ]; //['id', 'name', 'surname',  'email', 'Change', 'Delete'];
+    displayedColumnsAddUser: string[] = ['Action','FirstName', 'LastName']; //['Name', 'Surname', 'Age', 'Email', 'Save', 'Cancel'];
 
     dataSourceUsers: any;
     dataSourceAddUser: any;
